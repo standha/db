@@ -1,19 +1,22 @@
 <%--
   Created by IntelliJ IDEA.
   User: myyun
-  Date: 2023-03-24
-  Time: 오후 3:46
+  Date: 2023-03-27
+  Time: 오후 9:04
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="db.DBConnUtils" %>
+<%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%
-  Connection conn = DBConnUtils.getConnection();
+  Class.forName("org.mariadb.jdbc.Driver");
+  Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/sh?createDatabaseIfNotExist=true","root","root");
+
   PreparedStatement pstmt = null;
-  String query = "INSERT INTO USER VALUES (?,?)";
+  String query = "INSERT INTO sh VALUES (?,?)";
   if (conn != null) {
     try {
       pstmt = conn.prepareStatement(query);
@@ -23,9 +26,10 @@
       conn.close();
       pstmt.close();
 %>
+
 <script>
   alert("Insert 성공");
-  location.href='insert_user.html';
+  location.href='in.jsp';
 </script>
 <%
   } catch (SQLException e) {
